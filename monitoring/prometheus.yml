@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+
+  # Scrape Prometheus itself
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Scrape C++ API health endpoint
+  # cpp-httplib doesn't natively expose /metrics
+  # so we use blackbox-style HTTP probing
+  - job_name: "cpp-api"
+    metrics_path: /health
+    static_configs:
+      - targets: ["cpp-api:8080"]
+
+  # Scrape nginx frontend stats (if stub_status enabled)
+  - job_name: "frontend"
+    static_configs:
+      - targets: ["frontend:80"]
+
+  # Scrape Grafana itself
+  - job_name: "grafana"
+    static_configs:
+      - targets: ["grafana:3000"]

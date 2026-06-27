@@ -1,0 +1,35 @@
+# ── C++ build artifacts ───────────────────────
+jersey-store/jersey-server
+jersey-store/jersey-store
+jersey-store/jersey-store-debug
+jersey-store/*.o
+jersey-store/data/
+jersey-store/invoices/
+
+# ── Node / React ──────────────────────────────
+jersey-frontend-v2-ml/node_modules/
+jersey-frontend-v2-ml/dist/
+jersey-frontend-v2-ml/.env.local
+
+# ── Python / ML ───────────────────────────────
+jersey-ml/__pycache__/
+jersey-ml/**/__pycache__/
+jersey-ml/*.pyc
+jersey-ml/models/*.pkl
+jersey-ml/data/*.csv
+jersey-ml/data/*.json
+jersey-ml/venv/
+jersey-ml/.venv/
+
+# ── Docker ─────────────────────────────────────
+*.log
+
+# ── OS / Editor ────────────────────────────────
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# ── Env secrets ────────────────────────────────
+.env
+!.env.example

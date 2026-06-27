@@ -1,0 +1,80 @@
+version: "3.9"
+
+services:
+
+  # ── C++ REST API ───────────────────────────────
+  cpp-api:
+    build:
+      context: ./jersey-store
+      dockerfile: Dockerfile
+    container_name: jersey-cpp-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - jersey-data:/app/data         # persist JSON exports
+      - jersey-invoices:/app/invoices # persist invoices
+    networks:
+      - jersey-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── React Frontend ─────────────────────────────
+  frontend:
+    build:
+      context: ./jersey-frontend
+      dockerfile: Dockerfile
+    container_name: jersey-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      cpp-api:
+        condition: service_healthy
+    networks:
+      - jersey-net
+    restart: unless-stopped
+
+  # ── Prometheus ─────────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: jersey-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - jersey-net
+    restart: unless-stopped
+
+  # ── Grafana ────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: jersey-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+    networks:
+      - jersey-net
+    restart: unless-stopped
+
+# ── Networks ──────────────────────────────────────
+networks:
+  jersey-net:
+    driver: bridge
+
+# ── Volumes ───────────────────────────────────────
+volumes:
+  jersey-data:
+  jersey-invoices:
+  grafana-data:
