@@ -1,5 +1,7 @@
 # 🏟️ Jersey DevOps
 
+![CI/CD Pipeline](https://github.com/TarunKappala21/jersey-devops/actions/workflows/ci-cd.yml/badge.svg)
+
 **Full-stack jersey store with a C++ API, React frontend, ML integration, and monitoring.**
 
 A sports jersey marketplace built to demonstrate end-to-end engineering: a C++17 OOP backend exposed as a REST API, a React frontend, a Python ML microservice for recommendations and pricing, and a complete Docker + Kubernetes + Prometheus/Grafana deployment pipeline.
