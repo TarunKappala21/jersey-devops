@@ -45,7 +45,7 @@ jobs:
           # cache-dependency-path: jersey-frontend-v2-ml/package-lock.json
 
       - name: Install deps
-        run: cd jersey-frontend-v2-ml && npm ci
+        run: cd jersey-frontend-v2-ml && npm install
 
       - name: Build
         run: cd jersey-frontend-v2-ml && npm run build
