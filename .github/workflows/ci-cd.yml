@@ -31,7 +31,7 @@ jobs:
         continue-on-error: false
 
   # ── Build & Test React Frontend ───────────────
-  build-frontend:
+    build-frontend:
     name: Build React Frontend
     runs-on: ubuntu-latest
     steps:
@@ -40,17 +40,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
-          cache-dependency-path: jersey-frontend/package-lock.json
+          cache-dependency-path: jersey-frontend-v2-ml/package-lock.json
 
       - name: Install deps
-        run: cd jersey-frontend && npm ci
+        run: cd jersey-frontend-v2-ml && npm ci
 
       - name: Build
-        run: cd jersey-frontend && npm run build
+        run: cd jersey-frontend-v2-ml && npm run build
         env:
           VITE_API_URL: http://localhost:8080
+
 
   # ── Docker Build & Push ───────────────────────
   docker:
