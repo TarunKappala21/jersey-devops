@@ -41,8 +41,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: jersey-frontend-v2-ml/package-lock.json
+          # cache: npm
+          # cache-dependency-path: jersey-frontend-v2-ml/package-lock.json
 
       - name: Install deps
         run: cd jersey-frontend-v2-ml && npm ci
